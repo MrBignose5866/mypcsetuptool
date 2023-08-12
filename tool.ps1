@@ -9,8 +9,8 @@ Write-Output "==========================="
 Write-Output "Application Install Process"
 Write-Output "==========================="
 
-# Lines 6 through 10: Application Install Process Using WinGet
-$InstallPrograms = "Notepad++.Notepad++","GitHub.GitHubDesktop","Valve.Steam","Google.Chrome","ShareX.ShareX","Microsoft.VisualStudioCode","Windows Calculator","7zip.7zip","GIMP.GIMP","OBSProject.OBSStudio","Microsoft.PowerShell"
+# Lines 8 through 17: Application Install Process Using WinGet
+$InstallPrograms = "Notepad++.Notepad++","Google.Chrome","Windows Calculator"
 
     foreach ($InstallPrograms in $InstallPrograms) {
         winget install $InstallPrograms --accept-source-agreements --accept-package-agreements --silent 
