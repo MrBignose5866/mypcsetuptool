@@ -46,3 +46,102 @@ Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Change Explorer View to This PC
 Write-Output "Changing File Explorer View To This PC From Quick Access"
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "LaunchTo" -Type DWord -Value 1
+
+
+
+Write-Output "=========================="
+Write-Output "    Debloating Windows    "
+Write-Output "=========================="
+
+$Bloatware = @(
+
+*BingNews*
+"Microsoft.549981C3F5F10" # This aka Line 58 is Cortana
+*BingWeather*
+*ZuneMusic*
+*ZuneVideo*
+*MicrosoftOfficeHub*
+*WindowsMaps*
+*GetHelp*
+*WindowsSoundRecorder*
+*Paint*
+*MicrosoftStickyNotes*
+*PowerAutomateDesktop*
+*WindowsFeedbackHub*
+*Todos*
+*WindowsCalculator*
+*WindowsAlarms*
+*Teams*
+*YourPhone*
+*ScreenSketch*
+*MicrosoftSolitaireCollection*
+*Windows.Photos*
+*OneDriveSync*
+*SkypeApp*
+"Microsoft.3DBuilder" 
+"Microsoft.BingFinance" 
+"Microsoft.BingSports" 
+"Microsoft.Getstarted"  
+"Microsoft.Office.OneNote" 
+"Microsoft.WindowsCamera" 
+"microsoft.windowscommunicationsapps"   
+"Microsoft.WindowsMaps" 
+"Microsoft.WindowsPhone"  
+"Microsoft.WindowsSoundRecorder"  
+"Microsoft.XboxApp" 
+"Microsoft.ZuneMusic" 
+"Microsoft.ZuneVideo" 
+"Microsoft.AppConnector" 
+"Microsoft.ConnectivityStore" 
+"Microsoft.Office.Sway" 
+"Microsoft.Messaging"  
+"Microsoft.CommsPhone"  
+"9E2F88E3.Twitter" 
+"king.com.CandyCrushSodaSaga"
+"Microsoft.WindowsFeedbackHub" 
+"Microsoft.Wallet" 
+"Microsoft.ScreenSketch" 
+"Microsoft.GetHelp" 
+"Microsoft.Xbox.TCUI" 
+"Microsoft.XboxGameOverlay" 
+"Microsoft.XboxSpeechToTextOverlay" 
+"Microsoft.MixedReality.Portal" 
+"Microsoft.MinecraftUWP" 
+"Microsoft.NetworkSpeedTest" 
+"Microsoft.Print3D"
+"2FE3CB00.PicsArt-PhotoStudio"
+"46928bounde.EclipseManager"
+"4DF9E0F8.Netflix"
+"613EBCEA.PolarrPhotoEditorAcademicEdition" 
+"6Wunderkinder.Wunderlist" 
+"7EE7776C.LinkedInforWindows" 
+"89006A2E.AutodeskSketchBook" 
+"9E2F88E3.Twitter" 
+"A278AB0D.DisneyMagicKingdoms" 
+"A278AB0D.MarchofEmpires"
+"ActiproSoftwareLLC.562882FEEB491" 
+"CAF9E577.Plex" 
+"ClearChannelRadioDigital.iHeartRadio" 
+"D52A8D61.FarmVille2CountryEscape" 
+"D5EA27B7.Duolingo-LearnLanguagesforFree" 
+"DB6EA5DB.CyberLinkMediaSuiteEssentials" 
+"DolbyLaboratories.DolbyAccess" 
+"DolbyLaboratories.DolbyAccess" 
+"Drawboard.DrawboardPDF" 
+"Facebook.Facebook"
+"Microsoft.Xbox.TCUI" 
+"Microsoft.XboxApp" 
+"Microsoft.XboxGameOverlay" 
+"Microsoft.XboxGamingOverlay" 
+"Microsoft.XboxSpeechToTextOverlay" 
+*Xbox* 
+*xboxapp* 
+"Microsoft.GamingServices" 
+"Microsoft.XboxGameCallableUI" 
+*GamingApp*
+
+)
+
+foreach ($Bloatware in $Bloatware) {
+    Get-AppxPackage $Bloatware | Remove-AppxPackage 
+}
