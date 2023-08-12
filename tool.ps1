@@ -1,5 +1,5 @@
 # About Tool : This tool setups my computer and installs all my programs and sets it up how i like it, feel free to take a look
-# Last Edit : 8/11/2023 8:06PM
+# Last Edit : 8/12/2023 10:06PM
 # Script By : ThatPowerShellGuy
 
 # Clears PowerShell Before Script Launches To Keep The Terminal Clean
@@ -55,29 +55,26 @@ Write-Output "=========================="
 
 $Bloatware = @(
 
-*BingNews*
-"Microsoft.549981C3F5F10" # This aka Line 58 is Cortana
-*BingWeather*
-*ZuneMusic*
-*ZuneVideo*
-*MicrosoftOfficeHub*
-*WindowsMaps*
-*GetHelp*
-*WindowsSoundRecorder*
-*Paint*
-*MicrosoftStickyNotes*
-*PowerAutomateDesktop*
-*WindowsFeedbackHub*
-*Todos*
-*WindowsCalculator*
-*WindowsAlarms*
-*Teams*
-*YourPhone*
-*ScreenSketch*
-*MicrosoftSolitaireCollection*
-*Windows.Photos*
-*OneDriveSync*
-*SkypeApp*
+"Microsoft.BingNews"
+"Microsoft.549981C3F5F10"
+"Microsoft.BingWeather"
+"Microsoft.ZuneMusic"
+"Microsoft.ZuneVideo"
+"Microsoft.MicrosoftOfficeHub"
+"Microsoft.WindowsMaps"
+"Microsoft.GetHelp"
+"Microsoft.WindowsSoundRecorder"
+"Microsoft.MSPaint"
+"Microsoft.MicrosoftStickyNotes"
+"Microsoft.WindowsFeedbackHub"
+"Microsoft.todos"
+"Microsoft.WindowsAlarms"
+"Microsoft.MicrosoftTeams"
+"Microsoft.YourPhone"
+"Microsoft.ScreenSketch"
+"Microsoft.MicrosoftSolitaireCollection"
+"Microsoft.Windows.Photos"
+"Microsoft.SkypeApp"
 "Microsoft.3DBuilder" 
 "Microsoft.BingFinance" 
 "Microsoft.BingSports" 
@@ -129,19 +126,46 @@ $Bloatware = @(
 "DolbyLaboratories.DolbyAccess" 
 "Drawboard.DrawboardPDF" 
 "Facebook.Facebook"
-"Microsoft.Xbox.TCUI" 
-"Microsoft.XboxApp" 
-"Microsoft.XboxGameOverlay" 
-"Microsoft.XboxGamingOverlay" 
-"Microsoft.XboxSpeechToTextOverlay" 
-*Xbox* 
-*xboxapp* 
-"Microsoft.GamingServices" 
-"Microsoft.XboxGameCallableUI" 
-*GamingApp*
+"Microsoft.Xbox.TCUI"
+"Microsoft.XboxApp"
+"Microsoft.XboxGameOverlay"
+"Microsoft.XboxGamingOverlay"
+"Microsoft.XboxSpeechToTextOverlay"
+"Microsoft.Windows.CloudExperienceHost"
+"Microsoft.Windows.ContentDeliveryManager"
+"Microsoft.Windows.PeopleExperienceHost"
+"Microsoft.XboxGameCallableUI"
+"Microsoft.GamingServices"
+"Microsoft.MicrosoftPowerBIForWindows"
 
 )
 
-foreach ($Bloatware in $Bloatware) {
-    Get-AppxPackage $Bloatware | Remove-AppxPackage 
+foreach ($Bloat in $Bloatware) {
+    Get-AppxPackage $Bloat | Remove-AppxPackage
+    Get-AppProvisionedPackage $Bloat | Remove-AppxProvisionedPackage
+    Get-AppxPackage -Name $Bloat -AllUsers | Remove-AppxPackage -AllUsers
 }
+
+# End OneDrive Process
+taskkill.exe /F /IM "OneDrive.exe"
+
+# Starting OneDrive Uninstall Process
+winget uninstall onedrive
+
+# Remove OneDrive Folder From User Folder
+Remove-Item -Force "%USERPROFILE%\OneDrive" 
+
+# Remove OneDrive From Start Menu
+Remove-Item  -Force "%USERPROFILE%\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\OneDrive.ink"
+
+# Remove OneDrive Via Group Policies
+New-FolderForced -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\OneDrive"
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Wow6432Node\Policies\Microsoft\Windows\OneDrive" "DisableFileSyncNGSC" 1
+
+# Remove OneDrive From Explorer Sidebar
+New-PSDrive -PSProvider "Registry" -Root "HKEY_CLASSES_ROOT" -Name "HKCR"
+mkdir -Force "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+Set-ItemProperty -Path "HKCR:\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" "System.IsPinnedToNameSpaceTree" 0
+mkdir -Force "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}"
+Set-ItemProperty -Path "HKCR:\Wow6432Node\CLSID\{018D5C66-4533-4307-9B53-224DE2ED1FE6}" "System.IsPinnedToNameSpaceTree" 0
+Remove-PSDrive "HKCR"
