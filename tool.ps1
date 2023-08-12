@@ -10,7 +10,7 @@ Write-Output "Application Install Process"
 Write-Output "==========================="
 
 # Lines 8 through 17: Application Install Process Using WinGet
-$InstallPrograms = "Notepad++.Notepad++","Google.Chrome","Windows Calculator"
+$InstallPrograms = "Notepad++.Notepad++","Google.Chrome","Windows Calculator","7zip.7zip"
 
     foreach ($InstallPrograms in $InstallPrograms) {
         winget install $InstallPrograms --accept-source-agreements --accept-package-agreements --silent 
@@ -147,7 +147,7 @@ foreach ($Bloat in $Bloatware) {
 }
 
 # End OneDrive Process
-taskkill.exe /F /IM "OneDrive.exe"
+ Get-Process explorer | Stop-Process
 
 # Starting OneDrive Uninstall Process
 winget uninstall onedrive
